@@ -1,6 +1,9 @@
 const { AssertDeepEqual } = require('../helper');
 
-// Time Complexity: O(n^2) because of the reduceRight and nested for-loop
+// Here's anothe way to think about it: in each iteration of our two nested loops, we append one item to
+// sortedScores. How many numbers end up in sortedScores in the end? Exactly how many were in our input array! n.
+
+// Time Complexity: O(n) because of the reduceRight. It does not account the for-loop inside the reduceRight method
 // Space Complexity: O(n)
 const sortScores = (unsortedScores, highestPossibleScore) => {
   if (!unsortedScores.length) {
