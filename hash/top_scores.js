@@ -1,6 +1,6 @@
 const { AssertDeepEqual } = require('../helper');
 
-// Time Complexity: O(n^2) because of the reduceRight and nested for-loop
+// Time Complexity: O(n) because of the reduceRight. It does not account the for-loop inside the reduceRight method
 // Space Complexity: O(n)
 const sortScores = (unsortedScores, highestPossibleScore) => {
   if (!unsortedScores.length) {
