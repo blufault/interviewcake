@@ -15,19 +15,12 @@ const highestProductOf3 = (array) => {
   for (let i = 3; i < sortedArray.length; i++) {
     const current = sortedArray[i];
 
-    if (current > c) {
-      if (!(a < 0 && b < 0)) {
-        a = Math.max(a, b);
-        b = Math.max(b, c);
-        c = Math.max(c, current);
-      } else {
-        if (c < 0) {
-          a = Math.max(a, b);
-          b = Math.max(b, c);
-          c = Math.max(c, current);
-        }
-        c = Math.max(c, current);
-      }
+    if (!(a < 0 && b < 0) || c < 0) {
+      a = Math.max(a, b);
+      b = Math.max(b, c);
+      c = Math.max(c, current);
+    } else {
+      c = Math.max(c, current);
     }
 
     const currentProduct = a * b * c;
