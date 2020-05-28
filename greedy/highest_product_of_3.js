@@ -1,69 +1,56 @@
 const { AssertDeepEqual } = require('../helper');
-
 // Given an array of integers, find the highest
 // product you can get from three of the integers.
 
 const highestProductOf3 = (array) => {
   if (array.length < 3) {
-    throw 'Array needs to have more than 3 indices.';
-  } else if (array.lenght === 3) {
-    return array[0] * array[1] * array[2];
+    throw 'Array needs to have more than 3 elements.';
   }
 
-  let highest_product = Number.NEGATIVE_INFINITY;
-  let a = array[0], b = array[1], c = array[2];
+  const sortedArray = array.sort((a, b) => a-b);
+  console.log({ sortedArray });
+  let a = sortedArray[0], b = sortedArray[1], c = sortedArray[2];
+  let highestProduct = Number.NEGATIVE_INFINITY;
 
-  for (let i = 3; i <= array.length; i++) {
-    const current_product = a * b * c;
-    highest_product = Math.max(current_product, highest_product);
+  for (let i = 3; i < sortedArray.length; i++) {
+    const current = sortedArray[i];
 
-    const number = array[i];
-    if (number > c) {
-      a = Math.max(a, b);
-      b = Math.max(b, c);
-      c = Math.max(c, number);
-    } else if (number > b) {
-      a = Math.max(a, b);
-      b = Math.max(b, number);
-    } else if (number > a) {
-      a = Math.max(a, number);
+    if (current > c) {
+      if (!(a < 0 && b < 0)) {
+        a = Math.max(a, b);
+        b = Math.max(b, c);
+        c = Math.max(c, current);
+      } else {
+        if (c < 0) {
+          a = Math.max(a, b);
+          b = Math.max(b, c);
+          c = Math.max(c, current);
+        }
+        c = Math.max(c, current);
+      }
+    }
+
+    const currentProduct = a * b * c;
+    if (currentProduct > highestProduct) {
+      highestProduct = currentProduct;
+      console.log({ highestProduct });
     }
   }
 
-  return highest_product;
+  return highestProduct;
 };
 
-
-let desc = 'simple data';
-let actual = highestProductOf3([1, 3, 5, 8, 10, 12]);
-let expected = 960;
+let desc = 'example';
+let actual = highestProductOf3([1, 3, 5, 2, -2, -10]); // -10, -2, 1, 2, 3, 5
+let expected = 100;
 AssertDeepEqual(actual, expected, desc);
 
-desc = 'array length 4 that has a 0.';
-actual = highestProductOf3([5, 3, 1, 0]);
-expected = 15;
+desc = 'one negative';
+actual = highestProductOf3([5, 2, 3, 4, -10]); // -10, 2, 3, 4, 5
+expected = 60;
 AssertDeepEqual(actual, expected, desc);
 
-desc = 'array length 3';
-actual = highestProductOf3([5, 3, 1]);
-AssertDeepEqual(actual, expected, desc);
-
-desc = 'array length 4 with one negative number';
-actual = highestProductOf3([-10, 5, 30, 10]);
-expected = 1500;
-AssertDeepEqual(actual, expected, desc);
-
-desc = 'array length of 3 with all negative numbers';
-actual = highestProductOf3([-1, -1, -1]);
-expected = -1;
-AssertDeepEqual(actual, expected, desc);
-
-desc = 'array length of 3 with 2 negative numbers';
-actual = highestProductOf3([-2, -2, 2]);
-expected = 8;
-AssertDeepEqual(actual, expected, desc);
-
-desc = 'array length of 3 with 1 negative number';
-actual = highestProductOf3([2, -2, 2]);
-expected = -8;
+desc = 'all negative';
+actual = highestProductOf3([-5, -1, -3, -2]); // -5, -3, -2, -1
+expected = -6;
 AssertDeepEqual(actual, expected, desc);
