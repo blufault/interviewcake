@@ -1,18 +1,42 @@
 // Write a function getProductsOfAllIntsExceptAtIndex() that takes an array of ints and returns an array of the products.
 
 const getProductsOfAllIntsExceptAtIndex = (array) => {
-  const result = new Array(array.length).fill(1);
+  const beforeEachIndex = (array) => {
+    let productSoFar = 1;
+    return array.reduce((accum, curr, index) => {
+      accum[index] = productSoFar;
+      productSoFar *= array[index];
+      return accum;
+    }, []);
+  };
 
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < result.length; j++) {
-      if (i !== j) {
-        result[j] *= array[i];
-      }
+  const afterEachIndex = (array) => {
+    let productSoFar = 1;
+    const productsOfAllIntsAfterIndex = [];
+
+    for (let i = array.length - 1; i >= 0; i--) {
+      productsOfAllIntsAfterIndex[i] = productSoFar;
+      productSoFar *= array[i];
     }
-  }
 
-  console.log({ result });
+    return productsOfAllIntsAfterIndex;
+  };
+
+  const productsOfAllIntsBeforeIndex = beforeEachIndex(array);
+  const productsOfAllIntsAfterIndex = afterEachIndex(array);
+
+  const exceptAtIndex = () => {
+    return array.reduce((accum, curr, index) => {
+      const allExcept = productsOfAllIntsBeforeIndex[index] * productsOfAllIntsAfterIndex[index];
+
+      accum.push(allExcept);
+      return accum;
+    }, []);
+  };
+
+  console.log({ exceptAtIndex: exceptAtIndex() });
+
 };
 
-getProductsOfAllIntsExceptAtIndex([1, 7, 3, 4]);
+getProductsOfAllIntsExceptAtIndex([3, 1, 2, 5, 6, 4]);
 
