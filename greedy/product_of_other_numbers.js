@@ -10,32 +10,19 @@ const getProductsOfAllIntsExceptAtIndex = (array) => {
     }, []);
   };
 
-  const afterEachIndex = (array) => {
+  const afterEachIndex = (array, productBeforeIndex) => {
     let productSoFar = 1;
-    const productsOfAllIntsAfterIndex = [];
 
     for (let i = array.length - 1; i >= 0; i--) {
-      productsOfAllIntsAfterIndex[i] = productSoFar;
+      productBeforeIndex[i] *= productSoFar;
       productSoFar *= array[i];
     }
-
-    return productsOfAllIntsAfterIndex;
   };
 
   const productsOfAllIntsBeforeIndex = beforeEachIndex(array);
-  const productsOfAllIntsAfterIndex = afterEachIndex(array);
+  afterEachIndex(array, productsOfAllIntsBeforeIndex);
 
-  const exceptAtIndex = () => {
-    return array.reduce((accum, curr, index) => {
-      const allExcept = productsOfAllIntsBeforeIndex[index] * productsOfAllIntsAfterIndex[index];
-
-      accum.push(allExcept);
-      return accum;
-    }, []);
-  };
-
-  console.log({ exceptAtIndex: exceptAtIndex() });
-
+  console.log({ productsOfAllIntsBeforeIndex});
 };
 
 getProductsOfAllIntsExceptAtIndex([3, 1, 2, 5, 6, 4]);
